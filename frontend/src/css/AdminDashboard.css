@@ -65,8 +65,9 @@
 /* Main content */
 .main-content {
   flex: 1;
-  padding: 2.5rem 3rem;
+  padding: 2rem 2.5rem;
   overflow-y: auto;
+  background: var(--bg);
 }
 
 /* Top bar */
@@ -74,22 +75,24 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2.5rem;
-  padding-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.25rem;
   border-bottom: 1px solid #e5e7eb;
+  gap: 2rem;
 }
 
 .page-title {
-  margin: 0 0 0.5rem 0;
-  font-size: 2rem;
+  margin: 0;
+  font-size: 1.85rem;
   font-weight: 700;
   color: var(--text-main);
 }
 
 .page-subtitle {
-  margin: 0;
-  font-size: 0.95rem;
+  margin: 0.3rem 0 0 0;
+  font-size: 0.9rem;
   color: var(--text-muted);
+  font-weight: 400;
 }
 
 .topbar-right {
@@ -126,9 +129,11 @@
 /* Stats cards */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 3rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .stat-card {
@@ -163,8 +168,10 @@
 /* Two-column section */
 .two-column {
   display: grid;
-  grid-template-columns: 2fr 1.3fr;
-  gap: 2rem;
+  grid-template-columns: 2fr 1.2fr;
+  gap: 1.75rem;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .card {
@@ -173,6 +180,7 @@
   padding: 1.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   border: 1px solid #f0f1f3;
+  margin: 0;
 }
 
 .card-title {
@@ -272,7 +280,7 @@
   }
 
   .main-content {
-    padding: 1.5rem 2rem;
+    padding: 1.5rem 1.5rem;
   }
 
   .page-title {
@@ -282,6 +290,9 @@
   .topbar {
     margin-bottom: 1.5rem;
     padding-bottom: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
   }
 
   .stats-grid {
