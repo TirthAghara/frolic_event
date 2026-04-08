@@ -1,0 +1,129 @@
+/* GroupManagement.css */
+.group-management-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.GM-title {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.GM-card {
+  background: var(--glass-bg, rgba(255, 255, 255, 0.03));
+  padding: 2rem;
+  border-radius: 1.5rem;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.08));
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  margin-bottom: 2rem;
+}
+
+.GM-card label {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #cbd5e1;
+  margin-bottom: 0.8rem;
+}
+
+.GM-card select {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  font-family: inherit;
+  outline: none;
+  transition: all 0.3s ease;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: #f8fafc;
+  cursor: pointer;
+}
+
+.GM-card select option {
+  background-color: #171026;
+  color: #f8fafc;
+}
+
+.GM-card select:focus {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.GM-two-column {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+}
+
+.GM-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.GM-form input {
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  font-family: inherit;
+  outline: none;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: #f8fafc;
+}
+
+.GM-form input:focus {
+  border-color: #ec4899;
+  box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.2);
+}
+
+.GM-form button {
+  padding: 1rem;
+  border-radius: 0.75rem;
+  border: none;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: #fff;
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  transition: all 0.3s ease;
+  font-family: inherit;
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+}
+
+.GM-form button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.5);
+}
+
+.GM-form button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.GM-error {
+  padding: 1rem;
+  background-color: rgba(244, 63, 94, 0.1);
+  border: 1px solid rgba(244, 63, 94, 0.2);
+  border-radius: 0.75rem;
+  color: #f43f5e;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+@media (max-width: 900px) {
+  .GM-two-column {
+    grid-template-columns: 1fr;
+  }
+}

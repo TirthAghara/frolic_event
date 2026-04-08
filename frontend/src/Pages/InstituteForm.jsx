@@ -11,11 +11,10 @@ const InstituteForm = () => {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
-    image: null,
     coordinator: "",
   });
 
-  const [previewImage, setPreviewImage] = useState(null);
+
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [generalError, setGeneralError] = useState("");
@@ -27,23 +26,7 @@ const InstituteForm = () => {
   ];
 
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
-
-    // For image
-    if (name === "image") {
-      const file = files[0];
-      setFormData((prev) => ({ ...prev, image: file }));
-
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (ev) => setPreviewImage(ev.target.result);
-        reader.readAsDataURL(file);
-      } else {
-        setPreviewImage(null);
-      }
-      if (errors.image) setErrors((prev) => ({ ...prev, image: "" }));
-      return;
-    }
+    const { name, value } = e.target;
 
     setFormData((prev) => ({
       ...prev,
@@ -58,7 +41,6 @@ const InstituteForm = () => {
     const newErrors = {};
 
     if (!formData.name.trim()) newErrors.name = "Institute name is required";
-    if (!formData.image) newErrors.image = "Institute image is required";
     if (!formData.coordinator) newErrors.coordinator = "Coordinator is required";
 
     return newErrors;
@@ -82,12 +64,11 @@ const InstituteForm = () => {
     setGeneralError("");
 
     try {
-      // Build FormData with file
-      const data = new FormData();
-      data.append("name", formData.name);
-      data.append("description", formData.description);
-      data.append("image", formData.image);
-      data.append("coordinator", formData.coordinator);
+      const data = {
+        name: formData.name,
+        description: formData.description,
+        coordinator: formData.coordinator,
+      };
 
       await instituteAPI.createInstitute(token, data);
       alert("Institute created successfully!");
@@ -122,25 +103,7 @@ const InstituteForm = () => {
           </div>
         </div>
 
-        <div className="form-row">
-          <div className="form-group">
-            <label>Institute Image *</label>
-            <input
-              type="file"
-              name="image"
-              accept="image/*"
-              onChange={handleChange}
-              disabled={isSubmitting}
-            />
-            {errors.image && <span className="form-error">{errors.image}</span>}
-            {previewImage && (
-              <div className="image-preview">
-                <img src={previewImage} alt="Institute Preview" />
-              </div>
-            )}
-          </div>
-
-          <div className="form-group">
+        <div className="form-row">          <div className="form-group">
             <label>Description</label>
             <textarea
               name="description"

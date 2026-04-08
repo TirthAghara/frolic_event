@@ -3,14 +3,15 @@ const API_BASE_URL = 'http://localhost:5000/api';
 
 export const instituteAPI = {
   // Create institute
-  createInstitute: async (token, formData) => {
+  createInstitute: async (token, instituteData) => {
     try {
       const response = await fetch(`${API_BASE_URL}/institutes`, {
         method: 'POST',
         headers: {
+          'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
-        body: formData, // FormData with file
+        body: JSON.stringify(instituteData),
       });
 
       const data = await response.json();
@@ -64,14 +65,15 @@ export const instituteAPI = {
   },
 
   // Update institute
-  updateInstitute: async (token, instituteId, formData) => {
+  updateInstitute: async (token, instituteId, instituteData) => {
     try {
       const response = await fetch(`${API_BASE_URL}/institutes/${instituteId}`, {
         method: 'PUT',
         headers: {
+          'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
-        body: formData, // FormData with file
+        body: JSON.stringify(instituteData),
       });
 
       const data = await response.json();

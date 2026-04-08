@@ -6,6 +6,7 @@ require('dotenv').config();
 const authRoutes = require('./routes/auth');
 const eventRoutes = require('./routes/events');
 const instituteRoutes = require('./routes/institutes');
+const groupRoutes = require('./routes/groups');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -25,10 +26,10 @@ mongoose
     process.exit(1);
   });
 
-// Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/institutes', instituteRoutes);
+app.use('/api/groups', groupRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {

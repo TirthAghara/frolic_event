@@ -102,7 +102,7 @@ router.put('/:id', verifyToken, async (req, res) => {
     if (req.body.name) institute.name = req.body.name;
     if (req.body.description !== undefined) institute.description = req.body.description;
     if (req.body.coordinator) institute.coordinator = req.body.coordinator;
-    if (req.body.imagePath) institute.imagePath = req.body.imagePath;
+
 
     institute.updatedAt = new Date();
     await institute.save();

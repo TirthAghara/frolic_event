@@ -17,6 +17,25 @@ const RegistrationPage = () => {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [generalError, setGeneralError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const EyeIcon = ({ show }) => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      {show ? (
+        <>
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+          <line x1="1" y1="1" x2="23" y2="23"></line>
+        </>
+      ) : (
+        <>
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        </>
+      )}
+    </svg>
+  );
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -122,25 +141,35 @@ const RegistrationPage = () => {
 
           <div className="form-group">
             <label>Password</label>
-            <input
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              type="password"
-              placeholder="Create a password (min 6 characters)"
-            />
+            <div className="password-wrapper">
+              <input
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                type={showPassword ? "text" : "password"}
+                placeholder="Create a password (min 6 characters)"
+              />
+              <button type="button" className="eye-btn" onClick={() => setShowPassword(!showPassword)}>
+                <EyeIcon show={!showPassword} />
+              </button>
+            </div>
             {errors.password && <span className="error">{errors.password}</span>}
           </div>
 
           <div className="form-group">
             <label>Confirm Password</label>
-            <input
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              type="password"
-              placeholder="Confirm your password"
-            />
+            <div className="password-wrapper">
+              <input
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                type={showConfirmPassword ? "text" : "password"}
+                placeholder="Confirm your password"
+              />
+              <button type="button" className="eye-btn" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                <EyeIcon show={!showConfirmPassword} />
+              </button>
+            </div>
             {errors.confirmPassword && (
               <span className="error">{errors.confirmPassword}</span>
             )}

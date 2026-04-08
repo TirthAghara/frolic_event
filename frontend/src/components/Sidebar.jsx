@@ -10,6 +10,7 @@ const Sidebar = () => {
     { id: "dashboard", label: "Dashboard", path: "/dashboard" },
     { id: "add-event", label: "Add Event", path: "/add-event" },
     { id: "institute-form", label: "Institute Form", path: "/institute-form" },
+    { id: "groups", label: "Group Management", path: "/groups" },
     { id: "logout", label: "Logout", path: null, onClick: () => handleLogout() },
   ];
 

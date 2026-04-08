@@ -1,21 +1,27 @@
 const mongoose = require('mongoose');
 
-const instituteSchema = new mongoose.Schema({
-  name: {
+const groupSchema = new mongoose.Schema({
+  groupName: {
     type: String,
     required: true,
   },
-  description: {
-    type: String,
-  },
-  coordinator: {
-    type: String,
+  eventId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Event',
     required: true,
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true,
+  },
+  isPaymentDone: {
+    type: Boolean,
+    default: false,
+  },
+  isPresent: {
+    type: Boolean,
+    default: false,
   },
   createdAt: {
     type: Date,
@@ -27,4 +33,4 @@ const instituteSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('Institute', instituteSchema);
+module.exports = mongoose.model('Group', groupSchema);

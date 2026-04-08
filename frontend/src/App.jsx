@@ -6,14 +6,15 @@ import RegistrationPage from './Pages/RegistrationPage'
 import Dashboard from './Pages/Dashboard'
 import AddEvent from './Pages/AddEvent'
 import InstituteForm from './Pages/InstituteForm'
+import GroupManagement from './Pages/GroupManagement'
 import './App.css'
 
 // Protected Layout Wrapper with Sidebar
 function ProtectedLayout({ children }) {
   return (
-    <div style={{ display: 'flex', minHeight: '100vh' }}>
+    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
       <Sidebar />
-      <div style={{ flex: 1, overflow: 'auto' }}>
+      <div style={{ flex: 1, height: '100vh', overflowY: 'auto' }}>
         {children}
       </div>
     </div>
@@ -41,6 +42,7 @@ function App() {
       <Route path="/dashboard" element={isAuthenticated ? <ProtectedLayout><Dashboard /></ProtectedLayout> : <Navigate to="/login" replace />} />
       <Route path="/add-event" element={isAuthenticated ? <ProtectedLayout><AddEvent /></ProtectedLayout> : <Navigate to="/login" replace />} />
       <Route path="/institute-form" element={isAuthenticated ? <ProtectedLayout><InstituteForm /></ProtectedLayout> : <Navigate to="/login" replace />} />
+      <Route path="/groups" element={isAuthenticated ? <ProtectedLayout><GroupManagement /></ProtectedLayout> : <Navigate to="/login" replace />} />
 
       {/* Catch-all */}
       <Route path="*" element={<Navigate to={isAuthenticated ? "/dashboard" : "/login"} replace />} />

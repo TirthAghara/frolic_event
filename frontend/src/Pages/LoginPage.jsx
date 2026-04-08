@@ -10,6 +10,24 @@ const Login = () => {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [generalError, setGeneralError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const EyeIcon = ({ show }) => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      {show ? (
+        <>
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+          <line x1="1" y1="1" x2="23" y2="23"></line>
+        </>
+      ) : (
+        <>
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        </>
+      )}
+    </svg>
+  );
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -74,9 +92,13 @@ const Login = () => {
 
           <div className="form-group">
             <label>Password</label>
-            <input name="password" value={formData.password} onChange={handleChange} type="password" placeholder="Enter your password"/>
-            {errors.password && (<span className="error">{errors.password}</span>
-            )}
+            <div className="password-wrapper">
+              <input name="password" value={formData.password} onChange={handleChange} type={showPassword ? "text" : "password"} placeholder="Enter your password"/>
+              <button type="button" className="eye-btn" onClick={() => setShowPassword(!showPassword)}>
+                <EyeIcon show={!showPassword} />
+              </button>
+            </div>
+            {errors.password && (<span className="error">{errors.password}</span>)}
           </div>
 
           {errors.general && (
