@@ -1,12 +1,13 @@
-// AddEvent.jsx
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { eventAPI } from "../api/eventAPI";
 import "../css/AddEventForm.css";
 
 const AddEvent = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
   const token = localStorage.getItem("token");
+  const isEditMode = !!id;
 
   const [formData, setFormData] = useState({
     name: "",
@@ -21,7 +22,9 @@ const AddEvent = () => {
 
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoading, setIsLoading] = useState(isEditMode);
   const [generalError, setGeneralError] = useState("");
+
 
   // Example static options – replace with API data later
   const departments = [
@@ -35,6 +38,38 @@ const AddEvent = () => {
     { id: "COOR002", name: "Jane Smith" },
     { id: "COOR003", name: "Rahul Patel" },
   ];
+
+  useEffect(() => {
+    if (isEditMode) {
+      fetchEventData();
+    }
+  }, [id]);
+
+  const fetchEventData = async () => {
+    try {
+      const response = await eventAPI.getEventById(token, id);
+      const event = response.data || response.event || response; 
+      
+      // Format date for input type="date" (YYYY-MM-DD)
+      const eventDate = event.date ? new Date(event.date).toISOString().split('T')[0] : "";
+
+      setFormData({
+        name: event.name || "",
+        description: event.description || "",
+        date: eventDate,
+        department: event.department || "",
+        coordinator: event.coordinator || "",
+        maxGroups: event.maxGroups || "",
+        minParticipants: event.minParticipants || "",
+        maxParticipants: event.maxParticipants || "",
+      });
+    } catch (error) {
+      setGeneralError("Failed to fetch event data: " + error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -103,20 +138,35 @@ const AddEvent = () => {
         maxParticipants: Number(formData.maxParticipants),
       };
 
-      await eventAPI.createEvent(token, eventData);
-      alert("Event created successfully!");
+      if (isEditMode) {
+        await eventAPI.updateEvent(token, id, eventData);
+        alert("Event updated successfully!");
+      } else {
+        await eventAPI.createEvent(token, eventData);
+        alert("Event created successfully!");
+      }
       navigate("/dashboard");
     } catch (error) {
-      setGeneralError(error.message || "Failed to create event. Please try again.");
+      setGeneralError(error.message || `Failed to ${isEditMode ? 'update' : 'create'} event. Please try again.`);
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="main-content">
+        <div className="add-event-wrapper">
+          <p>Loading event data...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="main-content">
       <div className="add-event-wrapper">
-      <h2 className="add-event-title">Add Event</h2>
+      <h2 className="add-event-title">{isEditMode ? "Edit Event" : "Add Event"}</h2>
 
       <form className="add-event-form" onSubmit={handleSubmit}>
         {/* Event name */}
@@ -259,9 +309,11 @@ const AddEvent = () => {
           <div className="ae-error general">{generalError}</div>
         )}
 
-        <button type="submit" className="ae-submit-btn" disabled={isSubmitting}>
-          {isSubmitting ? "Creating Event..." : "Save Event"}
-        </button>
+          <button type="submit" className="ae-submit-btn" disabled={isSubmitting}>
+            {isSubmitting 
+              ? (isEditMode ? "Updating Event..." : "Creating Event...") 
+              : (isEditMode ? "Update Event" : "Save Event")}
+          </button>
       </form>
       </div>
     </div>

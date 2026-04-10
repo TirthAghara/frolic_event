@@ -41,7 +41,9 @@ function App() {
       <Route path="/" element={isAuthenticated ? <ProtectedLayout><Dashboard /></ProtectedLayout> : <Navigate to="/login" replace />} />
       <Route path="/dashboard" element={isAuthenticated ? <ProtectedLayout><Dashboard /></ProtectedLayout> : <Navigate to="/login" replace />} />
       <Route path="/add-event" element={isAuthenticated ? <ProtectedLayout><AddEvent /></ProtectedLayout> : <Navigate to="/login" replace />} />
+      <Route path="/edit-event/:id" element={isAuthenticated ? <ProtectedLayout><AddEvent /></ProtectedLayout> : <Navigate to="/login" replace />} />
       <Route path="/institute-form" element={isAuthenticated ? <ProtectedLayout><InstituteForm /></ProtectedLayout> : <Navigate to="/login" replace />} />
+      <Route path="/edit-institute/:id" element={isAuthenticated ? <ProtectedLayout><InstituteForm /></ProtectedLayout> : <Navigate to="/login" replace />} />
       <Route path="/groups" element={isAuthenticated ? <ProtectedLayout><GroupManagement /></ProtectedLayout> : <Navigate to="/login" replace />} />
 
       {/* Catch-all */}

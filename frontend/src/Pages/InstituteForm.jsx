@@ -1,12 +1,13 @@
-// InstituteForm.jsx
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { instituteAPI } from "../api/instituteAPI";
 import "../css/InstituteForm.css";
 
 const InstituteForm = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
   const token = localStorage.getItem("token");
+  const isEditMode = !!id;
 
   const [formData, setFormData] = useState({
     name: "",
@@ -14,16 +15,40 @@ const InstituteForm = () => {
     coordinator: "",
   });
 
-
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoading, setIsLoading] = useState(isEditMode);
   const [generalError, setGeneralError] = useState("");
+
 
   const coordinators = [
     { id: "COOR001", name: "John Doe" },
     { id: "COOR002", name: "Jane Smith" },
     { id: "COOR003", name: "Rahul Patel" },
   ];
+
+  useEffect(() => {
+    if (isEditMode) {
+      fetchInstituteData();
+    }
+  }, [id]);
+
+  const fetchInstituteData = async () => {
+    try {
+      const response = await instituteAPI.getInstituteById(token, id);
+      const institute = response.data || response.institute || response;
+      setFormData({
+        name: institute.name || "",
+        description: institute.description || "",
+        coordinator: institute.coordinator || "",
+      });
+    } catch (error) {
+      setGeneralError("Failed to fetch institute data: " + error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -64,28 +89,44 @@ const InstituteForm = () => {
     setGeneralError("");
 
     try {
+
       const data = {
         name: formData.name,
         description: formData.description,
         coordinator: formData.coordinator,
       };
 
-      await instituteAPI.createInstitute(token, data);
-      alert("Institute created successfully!");
+      if (isEditMode) {
+        await instituteAPI.updateInstitute(token, id, data);
+        alert("Institute updated successfully!");
+      } else {
+        await instituteAPI.createInstitute(token, data);
+        alert("Institute created successfully!");
+      }
       navigate("/dashboard");
     } catch (error) {
       setGeneralError(
-        error.message || "Failed to create institute. Please try again."
+        error.message || `Failed to ${isEditMode ? 'update' : 'create'} institute. Please try again.`
       );
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="main-content">
+        <div className="institute-form-wrapper">
+          <p>Loading institute data...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="main-content">
       <div className="institute-form-wrapper">
-        <h2 className="institute-title">Add Institute</h2>
+        <h2 className="institute-title">{isEditMode ? "Edit Institute" : "Add Institute"}</h2>
 
         <form className="institute-form" onSubmit={handleSubmit}>
         <div className="form-row">
@@ -142,13 +183,15 @@ const InstituteForm = () => {
           <div className="form-error general">{generalError}</div>
         )}
 
-        <button 
-          type="submit" 
-          className="institute-submit-btn"
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? "Creating Institute..." : "Save Institute"}
-        </button>
+          <button 
+            type="submit" 
+            className="institute-submit-btn"
+            disabled={isSubmitting}
+          >
+            {isSubmitting 
+              ? (isEditMode ? "Updating Institute..." : "Creating Institute...") 
+              : (isEditMode ? "Update Institute" : "Save Institute")}
+          </button>
       </form>
       </div>
     </div>

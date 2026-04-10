@@ -103,7 +103,14 @@
   text-align: center;
 }
 
+.ae-button-group {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
 .ae-submit-btn {
+  flex: 2;
   padding: 1.2rem 2rem;
   border-radius: 1rem;
   border: none;
@@ -113,7 +120,6 @@
   color: #fff;
   background: linear-gradient(135deg, #8b5cf6, #ec4899);
   transition: all 0.3s ease;
-  margin-top: 1rem;
   box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
   font-family: inherit;
 }
@@ -127,7 +133,39 @@
   transform: translateY(0);
 }
 
+.ae-delete-btn {
+  flex: 1;
+  padding: 1.2rem 2rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(244, 63, 94, 0.4);
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: #f43f5e;
+  background: rgba(244, 63, 94, 0.1);
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.ae-delete-btn:hover:not(:disabled) {
+  background: rgba(244, 63, 94, 0.2);
+  border-color: rgba(244, 63, 94, 0.6);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(244, 63, 94, 0.2);
+}
+
+.ae-delete-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
 @media (max-width: 768px) {
+  .ae-button-group {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+
   .add-event-wrapper { padding: 1rem; }
   .add-event-form { padding: 1.5rem; }
   .ae-row { grid-template-columns: 1fr; }
